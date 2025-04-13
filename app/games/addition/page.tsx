@@ -48,14 +48,14 @@ export default function AdditionGame() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-8 bg-blue-50">
       <div className="bg-white p-8 rounded-xl shadow-md max-w-md w-full">
-        <h1 className="text-3xl font-bold mb-4 text-blue-700 text-center">Addition Game</h1>
-        <p className="text-lg mb-8 text-center">Solve the addition problem below:</p>
+        <h1 className="text-3xl font-bold mb-4 text-green-600 text-center">Addition Game</h1>
+        <p className="text-lg mb-8 text-center text-gray-400">Solve the addition problem below:</p>
 
         <div className="flex justify-center items-center mb-8 text-4xl font-bold">
-          <span>{num1}</span>
-          <span className="mx-3">+</span>
-          <span>{num2}</span>
-          <span className="mx-3">=</span>
+          <span className="text-black">{num1}</span>
+          <span className="text-black mx-3">+</span>
+          <span className="text-black">{num2}</span>
+          <span className="text-black mx-3">=</span>
           <span className="text-blue-500">?</span>
         </div>
 
@@ -65,11 +65,11 @@ export default function AdditionGame() {
               type="number"
               value={userAnswer}
               onChange={(e) => setUserAnswer(e.target.value)}
-              className="flex-1 p-3 border-2 border-blue-300 rounded-lg text-xl text-center focus:outline-none focus:border-blue-500"
+              className="flex-1 p-3 border-2 border-gray-300 rounded-lg text-xl text-center focus:outline-none focus:border-gray-500 text-black"
               placeholder="Your answer"
               required
             />
-            <button type="submit" className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+            <button type="submit" className="bg-green-600 text-white px-6 py-1 rounded-lg font-semibold hover:bg-green-700 transition cursor-pointer">
               Check
             </button>
           </div>
@@ -90,7 +90,7 @@ export default function AdditionGame() {
         </div>
       </div>
 
-      <button onClick={generateNumbers} className="mt-6 bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition">
+      <button onClick={generateNumbers} className="mt-6 bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition cursor-pointer">
         Skip (New Problem)
       </button>
     </div>
