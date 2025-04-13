@@ -1,14 +1,12 @@
+import { UserProvider } from "../contexts/UserContext";
 import React from "react";
 import "./globals.css";
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <head>
-        <title>Math Games Platform</title>
-      </head>
       <body>
-        <main>{children}</main>
+        <UserProvider>{children}</UserProvider>
       </body>
     </html>
   );
