@@ -242,12 +242,7 @@ export default function AdditionGame() {
           </div>
         )}
       </div>
-
-      {isActive ? (
-        <button onClick={generateNumbers} className="mt-6 bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300 transition cursor-pointer">
-          Skip (New Problem)
-        </button>
-      ) : (
+      {!isActive && (
         <button onClick={restartGame} className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition cursor-pointer">
           Play Again
         </button>
