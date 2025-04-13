@@ -11,6 +11,8 @@ export default function AdditionGame() {
   const [timeRemaining, setTimeRemaining] = useState(10); // Start with 60 seconds
   const [isActive, setIsActive] = useState(true);
 
+  const [timeChange, setTimeChange] = useState({ value: 0, isShowing: false });
+
   // Add new state for stats visibility
   const [showStats, setShowStats] = useState(false);
 
@@ -55,14 +57,25 @@ export default function AdditionGame() {
       // No feedback message for correct answers
       setFeedback(""); // Clear any previous feedback
       setScore((prev) => prev + 1);
-      // Add 5 seconds for correct answer
+
+      // Add 5 seconds for correct answer and show the change
       setTimeRemaining((time) => time + 5);
+      setTimeChange({ value: 5, isShowing: true });
+
       // Set a timer to move to the next question immediately
       setTimeout(generateNumbers, 500); // Reduced delay
+
+      // Hide the time change indicator after a delay
+      setTimeout(() => setTimeChange({ value: 0, isShowing: false }), 1500);
     } else {
-      // Subtract 3 seconds for wrong answer, but don't go below 0
+      // Subtract 3 seconds for wrong answer and show the change
       setTimeRemaining((time) => Math.max(0, time - 3));
+      setTimeChange({ value: -3, isShowing: true });
+
       setTimeout(generateNumbers, 2000);
+
+      // Hide the time change indicator after a delay
+      setTimeout(() => setTimeChange({ value: 0, isShowing: false }), 1500);
     }
   };
 
@@ -141,6 +154,13 @@ export default function AdditionGame() {
                   <div className="flex items-center">
                     <div className={`text-xl font-bold ${timeRemaining <= 10 ? "text-red-600 animate-pulse" : "text-blue-600"}`}>{timeRemaining}</div>
                     <span className="ml-1 text-gray-600">seconds</span>
+
+                    {/* Time change indicator */}
+                    {timeChange.isShowing && (
+                      <div className={`ml-2 font-bold text-lg animate-fade-in-out ${timeChange.value > 0 ? "text-green-600" : "text-red-600"}`}>
+                        {timeChange.value > 0 ? `+${timeChange.value}` : timeChange.value}
+                      </div>
+                    )}
                   </div>
                 </div>
 
