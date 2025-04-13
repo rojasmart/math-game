@@ -1,4 +1,6 @@
-![image](https://github.com/user-attachments/assets/e752e51d-cf52-4fe4-b949-0155f2b65c4c)
+![image](https://github.com/user-attachments/assets/bf6abbc2-7703-490e-9876-ae4b81c3a9d7)
+![image](https://github.com/user-attachments/assets/b116b774-1ec6-46e4-be4f-411e79ea7c1b)
+
 
 # MathBlast
 
