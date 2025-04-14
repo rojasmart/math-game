@@ -5,13 +5,21 @@ import { useUser } from "../../../contexts/UserContext";
 
 export default function AdditionGame() {
   const { userSettings, addPoints } = useUser();
+
+  // Definir uma constante para o tempo inicial com base na dificuldade
+  const getDefaultTime = () => {
+    if (userSettings.difficulty === "easy") return 13;
+    if (userSettings.difficulty === "medium") return 9;
+    return 5; // hard
+  };
+
   const [num1, setNum1] = useState(0);
   const [num2, setNum2] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
   const [feedback, setFeedback] = useState("");
   const [score, setScore] = useState(0);
   const [totalQuestions, setTotalQuestions] = useState(0);
-  const [timeRemaining, setTimeRemaining] = useState(userSettings.difficulty === "easy" ? 90 : userSettings.difficulty === "medium" ? 60 : 30);
+  const [timeRemaining, setTimeRemaining] = useState(getDefaultTime());
   const [isActive, setIsActive] = useState(true);
 
   const [timeChange, setTimeChange] = useState({ value: 0, isShowing: false });
@@ -65,12 +73,12 @@ export default function AdditionGame() {
       setScore((prev) => prev + 1);
 
       // Award points based on difficulty
-      const pointsToAdd = userSettings.difficulty === "easy" ? 1 : userSettings.difficulty === "medium" ? 2 : 4;
+      const pointsToAdd = userSettings.difficulty === "easy" ? 1 : userSettings.difficulty === "medium" ? 2 : 3;
 
       addPoints(pointsToAdd);
 
       // Add time bonuses based on difficulty
-      const timeBonus = userSettings.difficulty === "easy" ? 8 : userSettings.difficulty === "medium" ? 5 : 3;
+      const timeBonus = userSettings.difficulty === "easy" ? 3 : userSettings.difficulty === "medium" ? 2 : 1;
 
       setTimeRemaining((time) => time + timeBonus);
       setTimeChange({ value: timeBonus, isShowing: true });
@@ -78,7 +86,18 @@ export default function AdditionGame() {
       setTimeout(generateNumbers, 500);
       setTimeout(() => setTimeChange({ value: 0, isShowing: false }), 1500);
     } else {
-      // Existing wrong answer logic
+      // Wrong answer logic
+      const timePenalty = userSettings.difficulty === "easy" ? -3 : userSettings.difficulty === "medium" ? -2 : -1;
+
+      setTimeRemaining((time) => Math.max(0, time + timePenalty)); // Prevent negative time
+      setTimeChange({ value: timePenalty, isShowing: true });
+
+      setTimeout(() => {
+        setFeedback("");
+        generateNumbers();
+      }, 1500);
+
+      setTimeout(() => setTimeChange({ value: 0, isShowing: false }), 1500);
     }
   };
 
@@ -93,7 +112,7 @@ export default function AdditionGame() {
   const restartGame = () => {
     setScore(0);
     setTotalQuestions(0);
-    setTimeRemaining(60);
+    setTimeRemaining(getDefaultTime());
     setIsActive(true);
     generateNumbers();
     setFeedback("");
@@ -102,8 +121,8 @@ export default function AdditionGame() {
   return (
     <div className="bg-blue-50 min-h-screen p-8">
       <GameHeader title="Addition Game" />
-      <div className="flex flex-col items-center justify-center min-h-screen p-8 bg-blue-50">
-        <div className="flex flex-col md:flex-row gap-6 max-w-5xl w-full">
+      <div className="flex flex-col items-center justify-center h-[calc(90vh-120px)] p-8 bg-blue-50">
+        <div className="flex flex-col md:flex-row gap-6 max-w-5xl">
           <div className="bg-white p-8 rounded-xl shadow-md max-w-3xl w-full">
             <div className="flex flex-col md:flex-row gap-8">
               {/* Main game area */}
@@ -220,8 +239,6 @@ export default function AdditionGame() {
           {/* Score card on the right */}
           {showStats && (
             <div className="md:w-64 p-6 bg-white rounded-xl border border-gray-200 bg-white p-8 rounded-xl shadow-md">
-              <h2 className="text-xl font-bold mb-6 text-blue-700 text-center text-gray-500">Your Progress</h2>
-
               <div className="flex flex-col space-y-4">
                 <div className="bg-gray-100 p-4 rounded-lg shadow-sm">
                   <p className="text-gray-500 text-sm mb-1">Total Score</p>
