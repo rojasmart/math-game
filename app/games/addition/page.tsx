@@ -73,12 +73,12 @@ export default function AdditionGame() {
       setScore((prev) => prev + 1);
 
       // Award points based on difficulty
-      const pointsToAdd = userSettings.difficulty === "easy" ? 1 : userSettings.difficulty === "medium" ? 2 : 4;
+      const pointsToAdd = userSettings.difficulty === "easy" ? 1 : userSettings.difficulty === "medium" ? 2 : 3;
 
       addPoints(pointsToAdd);
 
       // Add time bonuses based on difficulty
-      const timeBonus = userSettings.difficulty === "easy" ? 8 : userSettings.difficulty === "medium" ? 5 : 3;
+      const timeBonus = userSettings.difficulty === "easy" ? 3 : userSettings.difficulty === "medium" ? 2 : 1;
 
       setTimeRemaining((time) => time + timeBonus);
       setTimeChange({ value: timeBonus, isShowing: true });
@@ -86,7 +86,18 @@ export default function AdditionGame() {
       setTimeout(generateNumbers, 500);
       setTimeout(() => setTimeChange({ value: 0, isShowing: false }), 1500);
     } else {
-      // Existing wrong answer logic
+      // Wrong answer logic
+      const timePenalty = userSettings.difficulty === "easy" ? -3 : userSettings.difficulty === "medium" ? -2 : -1;
+
+      setTimeRemaining((time) => Math.max(0, time + timePenalty)); // Prevent negative time
+      setTimeChange({ value: timePenalty, isShowing: true });
+
+      setTimeout(() => {
+        setFeedback("");
+        generateNumbers();
+      }, 1500);
+
+      setTimeout(() => setTimeChange({ value: 0, isShowing: false }), 1500);
     }
   };
 
