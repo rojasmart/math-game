@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useUser } from "../contexts/UserContext";
 
@@ -9,6 +9,11 @@ interface GameHeaderProps {
 
 export default function GameHeader({ title }: GameHeaderProps) {
   const { userSettings } = useUser();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <div className="bg-white shadow-md p-4 mb-6 rounded-lg">
@@ -24,14 +29,18 @@ export default function GameHeader({ title }: GameHeaderProps) {
         </div>
 
         <div className="flex items-center space-x-4">
-          <div className="bg-blue-100 px-3 py-1 rounded-full text-blue-700 font-medium">{userSettings.difficulty}</div>
+          {mounted && (
+            <>
+              <div className="bg-blue-100 px-3 py-1 rounded-full text-blue-700 font-medium">{userSettings.difficulty}</div>
 
-          <div className="bg-yellow-100 px-3 py-1 rounded-full text-yellow-700 font-medium flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
-            {userSettings.points} pts
-          </div>
+              <div className="bg-yellow-100 px-3 py-1 rounded-full text-yellow-700 font-medium flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                {userSettings.points} pts
+              </div>
+            </>
+          )}
 
           <Link href="/profile" className="bg-gray-100 p-2 rounded-full hover:bg-gray-200 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
