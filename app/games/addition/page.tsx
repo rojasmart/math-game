@@ -5,13 +5,21 @@ import { useUser } from "../../../contexts/UserContext";
 
 export default function AdditionGame() {
   const { userSettings, addPoints } = useUser();
+
+  // Definir uma constante para o tempo inicial com base na dificuldade
+  const getDefaultTime = () => {
+    if (userSettings.difficulty === "easy") return 13;
+    if (userSettings.difficulty === "medium") return 9;
+    return 5; // hard
+  };
+
   const [num1, setNum1] = useState(0);
   const [num2, setNum2] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
   const [feedback, setFeedback] = useState("");
   const [score, setScore] = useState(0);
   const [totalQuestions, setTotalQuestions] = useState(0);
-  const [timeRemaining, setTimeRemaining] = useState(userSettings.difficulty === "easy" ? 90 : userSettings.difficulty === "medium" ? 60 : 30);
+  const [timeRemaining, setTimeRemaining] = useState(getDefaultTime());
   const [isActive, setIsActive] = useState(true);
 
   const [timeChange, setTimeChange] = useState({ value: 0, isShowing: false });
@@ -93,7 +101,7 @@ export default function AdditionGame() {
   const restartGame = () => {
     setScore(0);
     setTotalQuestions(0);
-    setTimeRemaining(60);
+    setTimeRemaining(getDefaultTime());
     setIsActive(true);
     generateNumbers();
     setFeedback("");
