@@ -110,8 +110,8 @@ export default function AdditionGame() {
   return (
     <div className="bg-blue-50 min-h-screen p-8">
       <GameHeader title="Addition Game" />
-      <div className="flex flex-col items-center justify-center min-h-screen p-8 bg-blue-50">
-        <div className="flex flex-col md:flex-row gap-6 max-w-5xl w-full">
+      <div className="flex flex-col items-center justify-center h-[calc(90vh-120px)] p-8 bg-blue-50">
+        <div className="flex flex-col md:flex-row gap-6 max-w-5xl">
           <div className="bg-white p-8 rounded-xl shadow-md max-w-3xl w-full">
             <div className="flex flex-col md:flex-row gap-8">
               {/* Main game area */}
@@ -228,8 +228,6 @@ export default function AdditionGame() {
           {/* Score card on the right */}
           {showStats && (
             <div className="md:w-64 p-6 bg-white rounded-xl border border-gray-200 bg-white p-8 rounded-xl shadow-md">
-              <h2 className="text-xl font-bold mb-6 text-blue-700 text-center text-gray-500">Your Progress</h2>
-
               <div className="flex flex-col space-y-4">
                 <div className="bg-gray-100 p-4 rounded-lg shadow-sm">
                   <p className="text-gray-500 text-sm mb-1">Total Score</p>
