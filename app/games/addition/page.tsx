@@ -67,6 +67,47 @@ export default function AdditionGame() {
     return () => clearInterval(interval);
   }, [isActive, timeRemaining]);
 
+  // Add this near your other useEffect hooks
+  useEffect(() => {
+    if (isActive) {
+      // Focus the input when the component mounts or when the game is active
+      const inputElement = document.querySelector('input[type="number"]') as HTMLInputElement;
+      if (inputElement) {
+        inputElement.focus();
+      }
+
+      // Add keyboard listener for direct number input
+      const handleKeyDown = (e) => {
+        // Only handle keys if the input element is not focused
+        const inputElement = document.querySelector('input[type="number"]') as HTMLInputElement;
+        if (inputElement === document.activeElement) {
+          // Input is focused, let the native handler work
+          return;
+        }
+
+        const key = e.key;
+        // Allow numbers 0-9
+        if (/^[0-9]$/.test(key) && isActive) {
+          setUserAnswer((prev) => `${prev}${key}`);
+          // Optionally focus the input after typing
+          if (inputElement) inputElement.focus();
+        }
+        // Allow backspace
+        else if (key === "Backspace" && isActive) {
+          setUserAnswer((prev) => prev.slice(0, -1));
+        }
+        // Allow Enter for submission
+        else if (key === "Enter" && isActive && userAnswer) {
+          e.preventDefault();
+          checkAnswer();
+        }
+      };
+
+      window.addEventListener("keydown", handleKeyDown);
+      return () => window.removeEventListener("keydown", handleKeyDown);
+    }
+  }, [isActive, userAnswer]);
+
   // Check answer
   const checkAnswer = () => {
     const correctAnswer = num1 + num2;
@@ -221,25 +262,76 @@ export default function AdditionGame() {
                 </div>
 
                 <form onSubmit={handleSubmit} className="mb-6">
-                  <div className="flex gap-4">
-                    <input
-                      type="number"
-                      value={userAnswer}
-                      onChange={(e) => setUserAnswer(e.target.value)}
-                      className="flex-1 p-3 border-2 border-gray-300 rounded-lg text-xl text-center focus:outline-none focus:border-gray-500 text-black"
-                      placeholder="Your answer"
-                      required
-                      disabled={!isActive}
-                    />
-                    <button
-                      type="submit"
-                      className={`${
-                        isActive ? "bg-green-600 hover:bg-green-700" : "bg-gray-400"
-                      } text-white px-6 py-3 rounded-lg font-semibold transition cursor-pointer`}
-                      disabled={!isActive}
-                    >
-                      Check
-                    </button>
+                  <div className="flex flex-col gap-4">
+                    <div className="flex gap-4 mb-2">
+                      <input
+                        type="number"
+                        value={userAnswer}
+                        onChange={(e) => setUserAnswer(e.target.value)}
+                        className="flex-1 p-3 border-b-2 border-gray-300 rounded-none text-xl text-center focus:outline-none focus:border-blue-500 text-black bg-transparent"
+                        placeholder="Your answer"
+                        required
+                        disabled={!isActive}
+                        autoFocus
+                        onBlur={(e) => e.target.focus()} // Keep focus on input
+                      />
+                      <button
+                        type="submit"
+                        className={`${
+                          isActive ? "bg-green-600 hover:bg-green-700" : "bg-gray-400"
+                        } text-white px-6 py-3 rounded-lg font-semibold transition cursor-pointer`}
+                        disabled={!isActive}
+                      >
+                        Check
+                      </button>
+                    </div>
+
+                    {/* Numeric Keypad */}
+                    <div className="grid grid-cols-3 gap-2 max-w-xs mx-auto">
+                      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+                        <button
+                          key={num}
+                          type="button"
+                          onClick={() => isActive && setUserAnswer((prevAnswer) => `${prevAnswer}${num}`)}
+                          className={`${
+                            isActive ? "bg-blue-100 hover:bg-blue-200 active:bg-blue-300" : "bg-gray-100"
+                          } text-gray-800 p-4 rounded-lg font-bold text-xl transition shadow-sm`}
+                          disabled={!isActive}
+                        >
+                          {num}
+                        </button>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={() => isActive && setUserAnswer((prevAnswer) => prevAnswer.slice(0, -1))}
+                        className={`${
+                          isActive ? "bg-yellow-100 hover:bg-yellow-200 active:bg-yellow-300" : "bg-gray-100"
+                        } text-gray-800 p-4 rounded-lg font-bold text-xl transition col-span-1 shadow-sm`}
+                        disabled={!isActive}
+                      >
+                        ←
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => isActive && setUserAnswer((prevAnswer) => `${prevAnswer}0`)}
+                        className={`${
+                          isActive ? "bg-blue-100 hover:bg-blue-200 active:bg-blue-300" : "bg-gray-100"
+                        } text-gray-800 p-4 rounded-lg font-bold text-xl transition shadow-sm`}
+                        disabled={!isActive}
+                      >
+                        0
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => isActive && setUserAnswer("")}
+                        className={`${
+                          isActive ? "bg-red-100 hover:bg-red-200 active:bg-red-300" : "bg-gray-100"
+                        } text-gray-800 p-4 rounded-lg font-bold text-xl transition shadow-sm`}
+                        disabled={!isActive}
+                      >
+                        C
+                      </button>
+                    </div>
                   </div>
                 </form>
 
