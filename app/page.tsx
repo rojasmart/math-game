@@ -7,6 +7,15 @@ export default function Home() {
   const { userSettings, updateName } = useUser();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [newName, setNewName] = useState(userSettings.name);
+  const [mounted, setMounted] = useState(false);
+
+  // Set up initial state only after component mounts on client
+  useEffect(() => {
+    setMounted(true);
+    if (userSettings?.name) {
+      setNewName(userSettings.name);
+    }
+  }, [userSettings?.name]);
 
   const handleNameSubmit = (e) => {
     e.preventDefault();
@@ -44,6 +53,15 @@ export default function Home() {
       icon: "➗",
     },
   ];
+
+  // Don't render user-specific content until client-side hydration is complete
+  if (!mounted) {
+    return (
+      <div className="bg-gray-100 min-h-screen flex items-center justify-center">
+        <div className="animate-pulse text-xl text-blue-700">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gray-100 min-h-screen">

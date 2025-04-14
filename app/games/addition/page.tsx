@@ -5,6 +5,7 @@ import { useUser } from "../../../contexts/UserContext";
 
 export default function AdditionGame() {
   const { userSettings, addPoints } = useUser();
+  const [mounted, setMounted] = useState(false);
 
   // Definir uma constante para o tempo inicial com base na dificuldade
   const getDefaultTime = () => {
@@ -39,10 +40,15 @@ export default function AdditionGame() {
     setFeedback("");
   };
 
-  // Initialize game
+  // Initialize game only after component is mounted on client
   useEffect(() => {
-    generateNumbers();
-  }, []);
+    if (!mounted) {
+      setMounted(true);
+      setTimeRemaining(getDefaultTime());
+      setIsActive(true);
+      generateNumbers();
+    }
+  }, [mounted, userSettings]);
 
   // Timer effect
   useEffect(() => {
@@ -117,6 +123,11 @@ export default function AdditionGame() {
     generateNumbers();
     setFeedback("");
   };
+
+  // Only render the full content after the component is mounted
+  if (!mounted) {
+    return <div className="bg-blue-50 min-h-screen p-8">Loading...</div>;
+  }
 
   return (
     <div className="bg-blue-50 min-h-screen p-8">
