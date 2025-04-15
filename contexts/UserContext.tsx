@@ -8,6 +8,7 @@ type UserSettings = {
   colorScheme: "default" | "dark" | "light" | "contrast";
   soundEnabled: boolean;
   points: number;
+  highestPoints: number;
 };
 
 // Default settings
@@ -17,6 +18,7 @@ const defaultSettings: UserSettings = {
   colorScheme: "default",
   soundEnabled: true,
   points: 0,
+  highestPoints: 0,
 };
 
 // Create context with methods to update settings
@@ -66,7 +68,18 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   };
 
   const addPoints = (points: number) => {
-    setUserSettings((prev) => ({ ...prev, points: prev.points + points }));
+    setUserSettings((prev) => {
+      // Só atualiza os pontos se o novo score for maior que o highestPoints
+      if (points > prev.highestPoints) {
+        return {
+          ...prev,
+          points: prev.points + points, // Adiciona ao total de pontos
+          highestPoints: points, // Atualiza o recorde
+        };
+      }
+      // Se não for maior, retorna o estado anterior sem modificação
+      return prev;
+    });
   };
 
   return (
