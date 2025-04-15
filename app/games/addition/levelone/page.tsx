@@ -5,6 +5,8 @@ import { useUser } from "../../../../contexts/UserContext";
 
 export default function AdditionGameLevelTwo() {
   const { userSettings, addPoints } = useUser();
+  const [questionStartTime, setQuestionStartTime] = useState(Date.now());
+
   const [mounted, setMounted] = useState(false);
 
   // Definir uma constante para o tempo inicial com base na dificuldade
@@ -37,7 +39,8 @@ export default function AdditionGameLevelTwo() {
     setNum1(Math.floor(Math.random() * range) + 1);
     setNum2(Math.floor(Math.random() * range) + 1);
     setUserAnswer("");
-    setFeedback("");
+
+    setQuestionStartTime(Date.now()); // Reset the start time for new question
   };
 
   // Initialize game only after component is mounted on client
@@ -59,8 +62,7 @@ export default function AdditionGameLevelTwo() {
         setTimeRemaining((time) => time - 1);
       }, 1000);
     } else if (timeRemaining === 0) {
-      setIsActive(false);
-      setFeedback("Time's up! Game over.");
+      handleGameOver(); // Chama handleGameOver quando o tempo acabar
       clearInterval(interval);
     }
 
@@ -112,35 +114,42 @@ export default function AdditionGameLevelTwo() {
   const checkAnswer = () => {
     const correctAnswer = num1 + num2;
     const userNum = parseInt(userAnswer);
+    const responseTime = (Date.now() - questionStartTime) / 1000; // Convert to seconds
 
     setTotalQuestions((prev) => prev + 1);
 
     if (userNum === correctAnswer) {
-      setFeedback("");
-      setScore((prev) => prev + 1);
+      // Calculate time-based bonus points
+      let timeBonus = 0;
+      if (responseTime <= 1) {
+        timeBonus = userSettings.difficulty === "easy" ? 3 : 4;
+      } else if (responseTime <= 2) {
+        timeBonus = userSettings.difficulty === "easy" ? 2 : 3;
+      } else if (responseTime <= 3) {
+        timeBonus = 2;
+      } else {
+        timeBonus = 1;
+      }
 
-      // Award points based on difficulty
-      const pointsToAdd = userSettings.difficulty === "easy" ? 1 : userSettings.difficulty === "medium" ? 2 : 3;
+      setScore((prev) => prev + timeBonus);
 
-      addPoints(pointsToAdd);
+      // Time bonus for timer remains the same
+      const timerBonus = userSettings.difficulty === "easy" ? 3 : userSettings.difficulty === "medium" ? 2 : 1;
+      setTimeRemaining((time) => time + timerBonus);
+      setTimeChange({ value: timerBonus, isShowing: true });
 
-      // Add time bonuses based on difficulty
-      const timeBonus = userSettings.difficulty === "easy" ? 3 : userSettings.difficulty === "medium" ? 2 : 1;
-
-      setTimeRemaining((time) => time + timeBonus);
-      setTimeChange({ value: timeBonus, isShowing: true });
+      // Show feedback with points earned
+      setTimeout(() => setFeedback(""), 1500);
 
       setTimeout(generateNumbers, 500);
       setTimeout(() => setTimeChange({ value: 0, isShowing: false }), 1500);
     } else {
-      // Wrong answer logic
+      // Existing wrong answer logic
       const timePenalty = userSettings.difficulty === "easy" ? -3 : userSettings.difficulty === "medium" ? -2 : -1;
-
-      setTimeRemaining((time) => Math.max(0, time + timePenalty)); // Prevent negative time
+      setTimeRemaining((time) => Math.max(0, time + timePenalty));
       setTimeChange({ value: timePenalty, isShowing: true });
 
       setTimeout(() => {
-        setFeedback("");
         generateNumbers();
       }, 1500);
 
@@ -162,7 +171,18 @@ export default function AdditionGameLevelTwo() {
     setTimeRemaining(getDefaultTime());
     setIsActive(true);
     generateNumbers();
-    setFeedback("");
+  };
+
+  const handleGameOver = () => {
+    setIsActive(false);
+
+    // Calcula pontos baseado no score e dificuldade
+    const difficultyMultiplier = userSettings.difficulty === "easy" ? 1 : userSettings.difficulty === "medium" ? 2 : 3;
+
+    const finalScore = score * difficultyMultiplier;
+
+    // Só chama addPoints quando o jogo termina
+    addPoints(finalScore);
   };
 
   // Only render the full content after the component is mounted
@@ -172,7 +192,7 @@ export default function AdditionGameLevelTwo() {
 
   return (
     <div className="bg-blue-50 min-h-screen p-8">
-      <GameHeader title="Addition Game" />
+      <GameHeader title="Addition Game" showPlayAgain={!isActive} onPlayAgain={restartGame} />
       <div className="flex flex-col items-center justify-center h-[calc(90vh-120px)] p-8 bg-blue-50">
         <div className="flex flex-col md:flex-row gap-6 max-w-5xl">
           <div className="bg-white p-8 rounded-xl shadow-md max-w-3xl w-full">
@@ -180,7 +200,6 @@ export default function AdditionGameLevelTwo() {
               {/* Main game area */}
               <div className="flex-1">
                 <div className="flex justify-between items-center mb-4">
-                  <h1 className="text-3xl font-bold text-green-600">Addition Game</h1>{" "}
                   <button
                     onClick={() => setShowNumPad(!showNumPad)}
                     className={`text-sm px-4 py-2 rounded-lg flex items-center cursor-pointer transition-all shadow-sm
@@ -215,8 +234,6 @@ export default function AdditionGameLevelTwo() {
                     )}
                   </button>
                 </div>
-
-                <p className="text-lg mb-8 text-center md:text-left text-gray-400">Solve the addition problem below:</p>
 
                 {/* Timer display */}
                 <div className="w-full bg-gray-100 p-3 rounded-lg mb-6">
@@ -342,11 +359,6 @@ export default function AdditionGameLevelTwo() {
             </div>
           )}
         </div>
-        {!isActive && (
-          <button onClick={restartGame} className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition cursor-pointer">
-            Play Again
-          </button>
-        )}
       </div>
     </div>
   );
