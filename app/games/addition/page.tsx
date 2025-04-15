@@ -26,7 +26,7 @@ export default function AdditionGame() {
   const [timeChange, setTimeChange] = useState({ value: 0, isShowing: false });
 
   // Add new state for stats visibility
-  const [showStats, setShowStats] = useState(false);
+  const [showNumPad, setShowNumPad] = useState(true);
 
   // Generate new random numbers
   const generateNumbers = () => {
@@ -182,11 +182,11 @@ export default function AdditionGame() {
                 <div className="flex justify-between items-center mb-4">
                   <h1 className="text-3xl font-bold text-green-600">Addition Game</h1>{" "}
                   <button
-                    onClick={() => setShowStats(!showStats)}
-                    className={`text-sm px-4 py-2 rounded-lg flex items-center cursor-pointer transition-all shadow-sm hover:shadow
-    ${showStats ? "bg-indigo-500 hover:bg-indigo-600 text-white" : "bg-indigo-500 hover:bg-indigo-600 text-white"}`}
+                    onClick={() => setShowNumPad(!showNumPad)}
+                    className={`text-sm px-4 py-2 rounded-lg flex items-center cursor-pointer transition-all shadow-sm
+    ${showNumPad ? "bg-indigo-500 hover:bg-indigo-600 text-white" : "bg-indigo-500 hover:bg-indigo-600 text-white"}`}
                   >
-                    {showStats ? (
+                    {showNumPad ? (
                       <>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -197,7 +197,7 @@ export default function AdditionGame() {
                         >
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                         </svg>
-                        Hide Stats
+                        Hide Numpad
                       </>
                     ) : (
                       <>
@@ -208,14 +208,9 @@ export default function AdditionGame() {
                           viewBox="0 0 24 24"
                           stroke="currentColor"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                          />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                         </svg>
-                        Show Stats
+                        Show Numpad
                       </>
                     )}
                   </button>
@@ -287,51 +282,6 @@ export default function AdditionGame() {
                     </div>
 
                     {/* Numeric Keypad */}
-                    <div className="grid grid-cols-3 gap-2 max-w-xs mx-auto">
-                      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
-                        <button
-                          key={num}
-                          type="button"
-                          onClick={() => isActive && setUserAnswer((prevAnswer) => `${prevAnswer}${num}`)}
-                          className={`${
-                            isActive ? "bg-blue-100 hover:bg-blue-200 active:bg-blue-300" : "bg-gray-100"
-                          } text-gray-800 p-4 rounded-lg font-bold text-xl transition shadow-sm`}
-                          disabled={!isActive}
-                        >
-                          {num}
-                        </button>
-                      ))}
-                      <button
-                        type="button"
-                        onClick={() => isActive && setUserAnswer((prevAnswer) => prevAnswer.slice(0, -1))}
-                        className={`${
-                          isActive ? "bg-yellow-100 hover:bg-yellow-200 active:bg-yellow-300" : "bg-gray-100"
-                        } text-gray-800 p-4 rounded-lg font-bold text-xl transition col-span-1 shadow-sm`}
-                        disabled={!isActive}
-                      >
-                        ←
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => isActive && setUserAnswer((prevAnswer) => `${prevAnswer}0`)}
-                        className={`${
-                          isActive ? "bg-blue-100 hover:bg-blue-200 active:bg-blue-300" : "bg-gray-100"
-                        } text-gray-800 p-4 rounded-lg font-bold text-xl transition shadow-sm`}
-                        disabled={!isActive}
-                      >
-                        0
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => isActive && setUserAnswer("")}
-                        className={`${
-                          isActive ? "bg-red-100 hover:bg-red-200 active:bg-red-300" : "bg-gray-100"
-                        } text-gray-800 p-4 rounded-lg font-bold text-xl transition shadow-sm`}
-                        disabled={!isActive}
-                      >
-                        C
-                      </button>
-                    </div>
                   </div>
                 </form>
 
@@ -339,31 +289,54 @@ export default function AdditionGame() {
               </div>
             </div>
           </div>
-          {/* Score card on the right */}
-          {showStats && (
-            <div className="md:w-64 p-6 bg-white rounded-xl border border-gray-200 bg-white p-8 rounded-xl shadow-md">
-              <div className="flex flex-col space-y-4">
-                <div className="bg-gray-100 p-4 rounded-lg shadow-sm">
-                  <p className="text-gray-500 text-sm mb-1">Total Score</p>
-                  <p className="text-3xl font-bold text-blue-600">
-                    {score} / {totalQuestions}
-                  </p>
-                </div>
-
-                <div className="bg-gray-100  p-4 rounded-lg shadow-sm">
-                  <p className="text-gray-500 text-sm mb-1">Correct Answers</p>
-                  <p className="text-2xl font-bold text-green-600">{score}</p>
-                  <div className="w-full bg-gray-200 h-2 rounded-full mt-2">
-                    <div
-                      className="bg-green-500 h-2 rounded-full"
-                      style={{ width: totalQuestions > 0 ? `${(score / totalQuestions) * 100}%` : "0%" }}
-                    ></div>
-                  </div>
-                </div>
-
-                <div className="bg-gray-100 p-4 rounded-lg shadow-sm">
-                  <p className="text-gray-500 text-sm mb-1">Incorrect Tries</p>
-                  <p className="text-2xl font-bold text-red-500">{totalQuestions - score}</p>
+          {/* Numpad card on the right */}
+          {showNumPad && (
+            <div className="md:w-80 h-80 p-6 bg-white rounded-xl border border-gray-200 shadow-md flex items-center justify-center">
+              <div className="w-full h-full">
+                <div className="grid grid-cols-3 gap-2 h-full">
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+                    <button
+                      key={num}
+                      type="button"
+                      onClick={() => isActive && setUserAnswer((prevAnswer) => `${prevAnswer}${num}`)}
+                      className={`${
+                        isActive ? "bg-blue-100 hover:bg-blue-200 active:bg-blue-300" : "bg-gray-100"
+                      } text-gray-800 rounded-lg font-bold text-xl transition shadow-sm flex items-center justify-center`}
+                      disabled={!isActive}
+                    >
+                      {num}
+                    </button>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => isActive && setUserAnswer((prevAnswer) => prevAnswer.slice(0, -1))}
+                    className={`${
+                      isActive ? "bg-yellow-100 hover:bg-yellow-200 active:bg-yellow-300" : "bg-gray-100"
+                    } text-gray-800 rounded-lg font-bold text-xl transition shadow-sm flex items-center justify-center`}
+                    disabled={!isActive}
+                  >
+                    ←
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => isActive && setUserAnswer((prevAnswer) => `${prevAnswer}0`)}
+                    className={`${
+                      isActive ? "bg-blue-100 hover:bg-blue-200 active:bg-blue-300" : "bg-gray-100"
+                    } text-gray-800 rounded-lg font-bold text-xl transition shadow-sm flex items-center justify-center`}
+                    disabled={!isActive}
+                  >
+                    0
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => isActive && setUserAnswer("")}
+                    className={`${
+                      isActive ? "bg-red-100 hover:bg-red-200 active:bg-red-300" : "bg-gray-100"
+                    } text-gray-800 rounded-lg font-bold text-xl transition shadow-sm flex items-center justify-center`}
+                    disabled={!isActive}
+                  >
+                    C
+                  </button>
                 </div>
               </div>
             </div>
