@@ -174,14 +174,14 @@ export default function AdditionGameLevelTwo() {
   };
 
   const handleGameOver = () => {
+    // Make sure we set isActive to false
     setIsActive(false);
 
-    // Calcula pontos baseado no score e dificuldade
+    // Calculate points based on score and difficulty
     const difficultyMultiplier = userSettings.difficulty === "easy" ? 1 : userSettings.difficulty === "medium" ? 2 : 3;
-
     const finalScore = score * difficultyMultiplier;
 
-    // Só chama addPoints quando o jogo termina
+    // Add points when game ends
     addPoints(finalScore);
   };
 
@@ -240,7 +240,11 @@ export default function AdditionGameLevelTwo() {
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-bold text-gray-600">Time:</span>
                     <div className="flex items-center">
-                      <div className={`text-xl font-bold ${timeRemaining <= 10 ? "text-red-600 animate-pulse" : "text-blue-600"}`}>
+                      <div
+                        role="timer"
+                        aria-label="time"
+                        className={`text-xl font-bold ${timeRemaining <= 10 ? "text-red-600 animate-pulse" : "text-blue-600"}`}
+                      >
                         {timeRemaining}
                       </div>
                       <span className="ml-1 text-gray-600">seconds</span>
@@ -283,9 +287,9 @@ export default function AdditionGameLevelTwo() {
                         className="flex-1 p-3 border-b-2 border-gray-300 rounded-none text-xl text-center focus:outline-none focus:border-blue-500 text-black bg-transparent"
                         placeholder="Your answer"
                         required
-                        disabled={!isActive}
+                        disabled={!isActive} // This should be properly bound to isActive
                         autoFocus
-                        onBlur={(e) => e.target.focus()} // Keep focus on input
+                        onBlur={(e) => e.target.focus()}
                       />
                       <button
                         type="submit"
