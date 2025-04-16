@@ -22,6 +22,7 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "types": ["jest", "@testing-library/jest-dom"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "**/*.test.ts", "**/*.test.tsx"],
   "exclude": ["node_modules"]
 }
