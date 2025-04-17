@@ -21,11 +21,14 @@ export default function GameHeader({ title, showPlayAgain = false, onPlayAgain }
     <div className="bg-white shadow-md p-4 mb-6 rounded-lg">
       <div className="flex justify-between items-center">
         <div className="flex items-center">
-          <Link href="/" className="bg-gray-600 text-white px-3 py-2 rounded-lg hover:bg-gray-700 transition-colors flex items-center mr-4">
+          <Link
+            href="/games/addition"
+            className="bg-gray-400 text-white px-3 py-2 rounded-lg hover:bg-gray-500 transition-colors flex items-center mr-4"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Home
+            Return
           </Link>
           <h1 className="text-2xl font-bold text-blue-700">{title}</h1>
         </div>
