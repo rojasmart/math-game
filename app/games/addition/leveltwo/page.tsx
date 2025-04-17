@@ -197,8 +197,36 @@ export default function AdditionGameTwo() {
                   <span className="text-blue-500">{result}</span>
                 </div>
 
-                {/* Rest of the component remains the same as the original game */}
-                {/* ... */}
+                <form onSubmit={handleSubmit} className="mb-6">
+                  <div className="flex flex-col gap-4">
+                    <div className="flex gap-4 mb-2">
+                      <input
+                        type="number"
+                        value={userAnswer}
+                        onChange={(e) => setUserAnswer(e.target.value)}
+                        className="flex-1 p-3 border-b-2 border-gray-300 rounded-none text-xl text-center focus:outline-none focus:border-blue-500 text-black bg-transparent"
+                        placeholder="Your answer"
+                        required
+                        disabled={!isActive} // This should be properly bound to isActive
+                        autoFocus
+                        onBlur={(e) => e.target.focus()}
+                      />
+                      <button
+                        type="submit"
+                        className={`${
+                          isActive ? "bg-green-600 hover:bg-green-700" : "bg-gray-400"
+                        } text-white px-6 py-3 rounded-lg font-semibold transition cursor-pointer`}
+                        disabled={!isActive}
+                      >
+                        Check
+                      </button>
+                    </div>
+
+                    {/* Numeric Keypad */}
+                  </div>
+                </form>
+
+                {feedback && <div className="p-3 text-center text-lg rounded-lg mb-4 bg-red-100 text-red-800">{feedback}</div>}
               </div>
             </div>
           </div>
