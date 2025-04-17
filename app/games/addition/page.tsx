@@ -51,6 +51,18 @@ export default function AdditionGameMenu() {
         <h1 className="text-1xl font-bold text-center text-blue-700 mb-6">Addition Games</h1>
         <p className="text-lg text-center text-gray-600 mb-8">Choose a game mode to practice different types of addition problems.</p>
 
+        <div className="mb-6 text-center">
+          <Link
+            href="/"
+            className="inline-flex items-center bg-gray-400 text-white px-3 py-2 text-lg rounded-lg hover:bg-gray-500 transition justify-center"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Return
+          </Link>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {additionGames.map((game) => {
             const isLocked = userPoints < game.requiredPoints;
