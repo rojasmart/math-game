@@ -5,7 +5,7 @@ import { useUser } from "../../../contexts/UserContext";
 const additionGames = [
   {
     id: "levelone",
-    description: "Find the result of a + b = ?",
+    description: "Find the result of a + b = result",
     example: "7 + 4 = ?",
     color: "bg-blue-500 hover:bg-blue-600",
     icon: "Level 1",
@@ -13,7 +13,7 @@ const additionGames = [
   },
   {
     id: "leveltwo",
-    description: "Find the missing number: a + ? = c",
+    description: "Find the missing number: a + ? = result",
     example: "5 + ? = 12",
     color: "bg-green-500 hover:bg-green-600",
     icon: "Level 2",
@@ -29,8 +29,8 @@ const additionGames = [
   },
   {
     id: "levelfour",
-    description: "Find the missing number: a + b + ? = d",
-    example: "6 + 3 + ? = 15",
+    description: "Find the missing number: a + b + c + d + ? = result",
+    example: "6 + 3 + 4 + 9 + ? = 29",
     color: "bg-purple-500 hover:bg-purple-600",
     icon: "Level 4",
     requiredPoints: 500,

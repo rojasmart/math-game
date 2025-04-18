@@ -60,7 +60,6 @@ export default function AdditionGameTwo() {
       }, 1000);
     } else if (timeRemaining === 0) {
       setIsActive(false);
-
       clearInterval(interval);
     }
     return () => clearInterval(interval);
@@ -221,8 +220,6 @@ export default function AdditionGameTwo() {
                         Check
                       </button>
                     </div>
-
-                    {/* Numeric Keypad */}
                   </div>
                 </form>
 
@@ -230,7 +227,6 @@ export default function AdditionGameTwo() {
               </div>
             </div>
           </div>
-
           {/* Numpad - same as original game */}
           {showNumPad && (
             <div className="md:w-80 h-80 p-6 bg-white rounded-xl border border-gray-200 shadow-md flex items-center justify-center">
