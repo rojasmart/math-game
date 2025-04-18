@@ -17,7 +17,7 @@ const defaultSettings: UserSettings = {
   difficulty: "medium",
   colorScheme: "default",
   soundEnabled: true,
-  points: 0,
+  points: 600,
   highestPoints: 0,
 };
 
