@@ -60,7 +60,7 @@ export default function AdditionGameTwo() {
       }, 1000);
     } else if (timeRemaining === 0) {
       setIsActive(false);
-      setFeedback("Time's up! Game over.");
+
       clearInterval(interval);
     }
     return () => clearInterval(interval);
@@ -114,8 +114,6 @@ export default function AdditionGameTwo() {
       const timePenalty = userSettings.difficulty === "easy" ? -3 : userSettings.difficulty === "medium" ? -2 : -1;
       setTimeRemaining((time) => Math.max(0, time + timePenalty));
       setTimeChange({ value: timePenalty, isShowing: true });
-
-      setFeedback(`Incorrect! ${num1} + ${correctAnswer} = ${result}`);
 
       setTimeout(() => {
         setFeedback("");
@@ -183,7 +181,9 @@ export default function AdditionGameTwo() {
                   <div className="w-full bg-gray-200 h-4 rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-1000 ease-linear ${timeRemaining <= 10 ? "bg-red-500" : "bg-blue-500"}`}
-                      style={{ width: `${(timeRemaining / getDefaultTime()) * 100}%` }}
+                      style={{
+                        width: `${(timeRemaining / 60) * 100}%`,
+                      }}
                     />
                   </div>
                 </div>

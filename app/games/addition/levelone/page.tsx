@@ -214,16 +214,10 @@ export default function AdditionGameLevelTwo() {
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-bold text-gray-600">Time:</span>
                     <div className="flex items-center">
-                      <div
-                        role="timer"
-                        aria-label="time"
-                        className={`text-xl font-bold ${timeRemaining <= 10 ? "text-red-600 animate-pulse" : "text-blue-600"}`}
-                      >
+                      <div className={`text-xl font-bold ${timeRemaining <= 10 ? "text-red-600 animate-pulse" : "text-blue-600"}`}>
                         {timeRemaining}
                       </div>
                       <span className="ml-1 text-gray-600">seconds</span>
-
-                      {/* Time change indicator */}
                       {timeChange.isShowing && (
                         <div className={`ml-2 font-bold text-lg animate-fade-in-out ${timeChange.value > 0 ? "text-green-600" : "text-red-600"}`}>
                           {timeChange.value > 0 ? `+${timeChange.value}` : timeChange.value}
@@ -284,6 +278,7 @@ export default function AdditionGameLevelTwo() {
               </div>
             </div>
           </div>
+
           {/* Numpad card on the right */}
           {showNumPad && (
             <div className="md:w-80 h-80 p-6 bg-white rounded-xl border border-gray-200 shadow-md flex items-center justify-center">
