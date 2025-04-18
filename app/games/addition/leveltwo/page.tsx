@@ -60,7 +60,7 @@ export default function AdditionGameTwo() {
       }, 1000);
     } else if (timeRemaining === 0) {
       setIsActive(false);
-      setFeedback("Time's up! Game over.");
+
       clearInterval(interval);
     }
     return () => clearInterval(interval);
@@ -115,8 +115,6 @@ export default function AdditionGameTwo() {
       setTimeRemaining((time) => Math.max(0, time + timePenalty));
       setTimeChange({ value: timePenalty, isShowing: true });
 
-      setFeedback(`Incorrect! ${num1} + ${correctAnswer} = ${result}`);
-
       setTimeout(() => {
         setFeedback("");
         generateProblem();
@@ -148,14 +146,13 @@ export default function AdditionGameTwo() {
 
   return (
     <div className="bg-blue-50 min-h-screen p-8">
-      <GameHeader title="Missing Addend Game" />
+      <GameHeader title="Level 2" showPlayAgain={!isActive} onPlayAgain={restartGame} />
       <div className="flex flex-col items-center justify-center h-[calc(90vh-120px)] p-8 bg-blue-50">
         <div className="flex flex-col md:flex-row gap-6 max-w-5xl">
           <div className="bg-white p-8 rounded-xl shadow-md max-w-3xl w-full">
             <div className="flex flex-col md:flex-row gap-8">
               <div className="flex-1">
                 <div className="flex justify-between items-center mb-4">
-                  <h1 className="text-3xl font-bold text-green-600">Find the Missing Number</h1>
                   <button
                     onClick={() => setShowNumPad(!showNumPad)}
                     className={`text-sm px-4 py-2 rounded-lg flex items-center cursor-pointer transition-all shadow-sm
@@ -164,8 +161,6 @@ export default function AdditionGameTwo() {
                     {showNumPad ? "Hide Numpad" : "Show Numpad"}
                   </button>
                 </div>
-
-                <p className="text-lg mb-8 text-center md:text-left text-gray-400">Find the missing number that makes the equation true</p>
 
                 {/* Timer display - same as original game */}
                 <div className="w-full bg-gray-100 p-3 rounded-lg mb-6">
@@ -186,7 +181,9 @@ export default function AdditionGameTwo() {
                   <div className="w-full bg-gray-200 h-4 rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-1000 ease-linear ${timeRemaining <= 10 ? "bg-red-500" : "bg-blue-500"}`}
-                      style={{ width: `${(timeRemaining / getDefaultTime()) * 100}%` }}
+                      style={{
+                        width: `${(timeRemaining / 60) * 100}%`,
+                      }}
                     />
                   </div>
                 </div>
@@ -200,8 +197,36 @@ export default function AdditionGameTwo() {
                   <span className="text-blue-500">{result}</span>
                 </div>
 
-                {/* Rest of the component remains the same as the original game */}
-                {/* ... */}
+                <form onSubmit={handleSubmit} className="mb-6">
+                  <div className="flex flex-col gap-4">
+                    <div className="flex gap-4 mb-2">
+                      <input
+                        type="number"
+                        value={userAnswer}
+                        onChange={(e) => setUserAnswer(e.target.value)}
+                        className="flex-1 p-3 border-b-2 border-gray-300 rounded-none text-xl text-center focus:outline-none focus:border-blue-500 text-black bg-transparent"
+                        placeholder="Your answer"
+                        required
+                        disabled={!isActive} // This should be properly bound to isActive
+                        autoFocus
+                        onBlur={(e) => e.target.focus()}
+                      />
+                      <button
+                        type="submit"
+                        className={`${
+                          isActive ? "bg-green-600 hover:bg-green-700" : "bg-gray-400"
+                        } text-white px-6 py-3 rounded-lg font-semibold transition cursor-pointer`}
+                        disabled={!isActive}
+                      >
+                        Check
+                      </button>
+                    </div>
+
+                    {/* Numeric Keypad */}
+                  </div>
+                </form>
+
+                {feedback && <div className="p-3 text-center text-lg rounded-lg mb-4 bg-red-100 text-red-800">{feedback}</div>}
               </div>
             </div>
           </div>
@@ -259,11 +284,6 @@ export default function AdditionGameTwo() {
             </div>
           )}
         </div>
-        {!isActive && (
-          <button onClick={restartGame} className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition cursor-pointer">
-            Play Again
-          </button>
-        )}
       </div>
     </div>
   );

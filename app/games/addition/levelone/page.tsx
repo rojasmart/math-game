@@ -192,7 +192,7 @@ export default function AdditionGameLevelTwo() {
 
   return (
     <div className="bg-blue-50 min-h-screen p-8">
-      <GameHeader title="Addition Game" showPlayAgain={!isActive} onPlayAgain={restartGame} />
+      <GameHeader title="Level 1" showPlayAgain={!isActive} onPlayAgain={restartGame} />
       <div className="flex flex-col items-center justify-center h-[calc(90vh-120px)] p-8 bg-blue-50">
         <div className="flex flex-col md:flex-row gap-6 max-w-5xl">
           <div className="bg-white p-8 rounded-xl shadow-md max-w-3xl w-full">
@@ -203,35 +203,9 @@ export default function AdditionGameLevelTwo() {
                   <button
                     onClick={() => setShowNumPad(!showNumPad)}
                     className={`text-sm px-4 py-2 rounded-lg flex items-center cursor-pointer transition-all shadow-sm
-    ${showNumPad ? "bg-indigo-500 hover:bg-indigo-600 text-white" : "bg-indigo-500 hover:bg-indigo-600 text-white"}`}
+                    ${showNumPad ? "bg-indigo-500 hover:bg-indigo-600 text-white" : "bg-indigo-500 hover:bg-indigo-600 text-white"}`}
                   >
-                    {showNumPad ? (
-                      <>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-4 w-4 mr-2 stroke-white"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                        Hide Numpad
-                      </>
-                    ) : (
-                      <>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-4 w-4 mr-2 stroke-white"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                        </svg>
-                        Show Numpad
-                      </>
-                    )}
+                    {showNumPad ? "Hide Numpad" : "Show Numpad"}
                   </button>
                 </div>
 
@@ -240,16 +214,10 @@ export default function AdditionGameLevelTwo() {
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-bold text-gray-600">Time:</span>
                     <div className="flex items-center">
-                      <div
-                        role="timer"
-                        aria-label="time"
-                        className={`text-xl font-bold ${timeRemaining <= 10 ? "text-red-600 animate-pulse" : "text-blue-600"}`}
-                      >
+                      <div className={`text-xl font-bold ${timeRemaining <= 10 ? "text-red-600 animate-pulse" : "text-blue-600"}`}>
                         {timeRemaining}
                       </div>
                       <span className="ml-1 text-gray-600">seconds</span>
-
-                      {/* Time change indicator */}
                       {timeChange.isShowing && (
                         <div className={`ml-2 font-bold text-lg animate-fade-in-out ${timeChange.value > 0 ? "text-green-600" : "text-red-600"}`}>
                           {timeChange.value > 0 ? `+${timeChange.value}` : timeChange.value}
@@ -310,6 +278,7 @@ export default function AdditionGameLevelTwo() {
               </div>
             </div>
           </div>
+
           {/* Numpad card on the right */}
           {showNumPad && (
             <div className="md:w-80 h-80 p-6 bg-white rounded-xl border border-gray-200 shadow-md flex items-center justify-center">
