@@ -84,7 +84,7 @@ export default function Home() {
               <div className="relative">
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="flex items-center space-x-2 bg-blue-50 hover:bg-blue-100 px-3 py-2 rounded-lg transition-colors"
+                  className="flex items-center space-x-2 bg-blue-50 hover:bg-blue-100 px-3 py-2 rounded-lg transition-colors cursor-pointer"
                 >
                   <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
                     {userSettings.name.substring(0, 1).toUpperCase()}
@@ -108,7 +108,10 @@ export default function Home() {
                           className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                           placeholder="Change your name"
                         />
-                        <button type="submit" className="w-full mt-2 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded transition-colors">
+                        <button
+                          type="submit"
+                          className="w-full mt-2 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded transition-colors cursor-pointer"
+                        >
                           Update Name
                         </button>
                       </form>

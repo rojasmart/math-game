@@ -64,7 +64,7 @@ export default function ProfilePage() {
                   <button
                     key={level}
                     onClick={() => updateDifficulty(level as "easy" | "medium" | "hard")}
-                    className={`px-4 py-2 rounded-lg transition-colors ${
+                    className={`cursor-pointer px-4 py-2 rounded-lg transition-colors ${
                       userSettings.difficulty === level ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                     }`}
                   >
@@ -86,7 +86,7 @@ export default function ProfilePage() {
                   <button
                     key={scheme.name}
                     onClick={() => updateColorScheme(scheme.name as any)}
-                    className={`px-4 py-2 rounded-lg transition-colors flex items-center ${
+                    className={`cursor-pointer px-4 py-2 rounded-lg transition-colors flex items-center ${
                       userSettings.colorScheme === scheme.name ? "ring-2 ring-blue-500 ring-offset-2" : ""
                     }`}
                   >
