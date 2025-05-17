@@ -66,19 +66,15 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const toggleSound = () => {
     setUserSettings((prev) => ({ ...prev, soundEnabled: !prev.soundEnabled }));
   };
-
   const addPoints = (points: number) => {
     setUserSettings((prev) => {
-      // Só atualiza os pontos se o novo score for maior que o highestPoints
-      if (points > prev.highestPoints) {
-        return {
-          ...prev,
-          points: prev.points + points, // Adiciona ao total de pontos
-          highestPoints: points, // Atualiza o recorde
-        };
-      }
-      // Se não for maior, retorna o estado anterior sem modificação
-      return prev;
+      const newTotalPoints = prev.points + points;
+      return {
+        ...prev,
+        points: newTotalPoints,
+        // Atualiza o recorde apenas se os pontos desta rodada forem maiores
+        highestPoints: points > prev.highestPoints ? points : prev.highestPoints,
+      };
     });
   };
 

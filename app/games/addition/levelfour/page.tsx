@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import GameHeader from "../../../../components/GameHeader";
 import { useUser } from "../../../../contexts/UserContext";
 
-export default function AdditionGameFour() {
+export default function AdditionGameLevelFour() {
   const { userSettings, addPoints } = useUser();
   const [mounted, setMounted] = useState(false);
 
