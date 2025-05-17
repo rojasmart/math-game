@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import GameHeader from "../../../../components/GameHeader";
 import { useUser } from "../../../../contexts/UserContext";
 
-export default function AdditionGameLevelTwo() {
+export default function AdditionGameLevelOne() {
   const { userSettings, addPoints } = useUser();
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
 
@@ -172,17 +172,21 @@ export default function AdditionGameLevelTwo() {
     setIsActive(true);
     generateNumbers();
   };
-
   const handleGameOver = () => {
     // Make sure we set isActive to false
     setIsActive(false);
 
     // Calculate points based on score and difficulty
-    const difficultyMultiplier = userSettings.difficulty === "easy" ? 1 : userSettings.difficulty === "medium" ? 2 : 3;
+    const difficultyMultiplier = userSettings?.difficulty === "easy" ? 1 : userSettings?.difficulty === "medium" ? 2 : 3;
     const finalScore = score * difficultyMultiplier;
 
-    // Add points when game ends
-    addPoints(finalScore);
+    // Add points when game ends and log for debugging
+    console.log("Adding points:", finalScore);
+    if (typeof addPoints === "function") {
+      addPoints(finalScore);
+    } else {
+      console.error("addPoints is not a function:", addPoints);
+    }
   };
 
   // Only render the full content after the component is mounted

@@ -41,6 +41,10 @@ export default function AdditionGameMenu() {
   const { userSettings } = useUser();
   const userPoints = userSettings?.points || 0;
 
+  if (!userSettings) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="bg-blue-50 min-h-screen p-8">
       <div className="max-w-5xl mx-auto">
