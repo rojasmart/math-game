@@ -13,35 +13,40 @@ type UserSettings = {
 
 // Default settings
 const defaultSettings: UserSettings = {
-  name: "Player",
+  name: "",
   difficulty: "medium",
   colorScheme: "default",
   soundEnabled: true,
-  points: 600,
+  points: 0,
   highestPoints: 0,
 };
 
 // Create context with methods to update settings
 type UserContextType = {
-  userSettings: UserSettings;
+  userSettings: UserSettings | null;
+  isLoggedIn: boolean;
   updateName: (name: string) => void;
   updateDifficulty: (difficulty: "easy" | "medium" | "hard") => void;
   updateColorScheme: (scheme: "default" | "dark" | "light" | "contrast") => void;
   toggleSound: () => void;
   addPoints: (points: number) => void;
+  logout: () => void;
+  login: (name: string) => void;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   // Initialize state from localStorage if available
-  const [userSettings, setUserSettings] = useState<UserSettings>(() => {
+  const [userSettings, setUserSettings] = useState<UserSettings | null>(() => {
     if (typeof window !== "undefined") {
       const savedSettings = localStorage.getItem("mathGameUserSettings");
-      return savedSettings ? JSON.parse(savedSettings) : defaultSettings;
+      return savedSettings ? JSON.parse(savedSettings) : null;
     }
-    return defaultSettings;
+    return null;
   });
+
+  const isLoggedIn = userSettings !== null;
 
   // Save settings to localStorage when they change
   useEffect(() => {
@@ -77,16 +82,31 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       };
     });
   };
+  const logout = () => {
+    setUserSettings(null);
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("mathGameUserSettings");
+    }
+  };
+  const login = (name: string) => {
+    setUserSettings({
+      ...defaultSettings,
+      name,
+    });
+  };
 
   return (
     <UserContext.Provider
       value={{
         userSettings,
+        isLoggedIn,
         updateName,
         updateDifficulty,
         updateColorScheme,
         toggleSound,
         addPoints,
+        logout,
+        login,
       }}
     >
       {children}
