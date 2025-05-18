@@ -2,11 +2,12 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useUser } from "../contexts/UserContext";
+import LoginForm from "../components/LoginForm";
 
 export default function Home() {
-  const { userSettings, updateName } = useUser();
+  const { userSettings, isLoggedIn, updateName, logout } = useUser();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [newName, setNewName] = useState(userSettings.name);
+  const [newName, setNewName] = useState("");
   const [mounted, setMounted] = useState(false);
 
   // Set up initial state only after component mounts on client
@@ -16,11 +17,16 @@ export default function Home() {
       setNewName(userSettings.name);
     }
   }, [userSettings?.name]);
-
-  const handleNameSubmit = (e) => {
+  const handleNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    updateName(newName);
-    setIsProfileOpen(false);
+    if (userSettings) {
+      updateName(newName);
+      setIsProfileOpen(false);
+    }
+  };
+
+  const handleLogout = () => {
+    logout();
   };
 
   const games = [
@@ -53,7 +59,6 @@ export default function Home() {
       icon: "➗",
     },
   ];
-
   // Don't render user-specific content until client-side hydration is complete
   if (!mounted) {
     return (
@@ -61,6 +66,11 @@ export default function Home() {
         <div className="animate-pulse text-xl text-blue-700">Loading...</div>
       </div>
     );
+  }
+
+  // Show login form if user is not logged in
+  if (!isLoggedIn) {
+    return <LoginForm />;
   }
 
   return (
@@ -72,14 +82,14 @@ export default function Home() {
             <h1 className="text-2xl font-bold text-blue-700">Math Blast</h1>
 
             <div className="flex items-center space-x-4">
+              {" "}
               {/* Points Display */}
               <div className="bg-yellow-100 px-3 py-1 rounded-full text-yellow-700 font-medium flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
-                {userSettings.points} pts
+                {userSettings?.points ?? 0} pts
               </div>
-
               {/* User Profile Button */}
               <div className="relative">
                 <button
@@ -87,9 +97,9 @@ export default function Home() {
                   className="flex items-center space-x-2 bg-blue-50 hover:bg-blue-100 px-3 py-2 rounded-lg transition-colors cursor-pointer"
                 >
                   <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
-                    {userSettings.name.substring(0, 1).toUpperCase()}
+                    {userSettings?.name?.substring(0, 1).toUpperCase() ?? "?"}
                   </div>
-                  <span className="text-blue-700">{userSettings.name}</span>
+                  <span className="text-blue-700">{userSettings?.name ?? "Guest"}</span>
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
@@ -140,7 +150,7 @@ export default function Home() {
                         </Link>
                       </li>
                       <li>
-                        <div className="block px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors cursor-pointer">
+                        <div onClick={handleLogout} className="block px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors cursor-pointer">
                           <div className="flex items-center">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
