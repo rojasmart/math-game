@@ -17,7 +17,7 @@ const defaultSettings: UserSettings = {
   difficulty: "medium",
   colorScheme: "default",
   soundEnabled: true,
-  points: 600, // Pontos iniciais para desbloquear jogos
+  points: 0,
   highestPoints: 0,
 };
 
