@@ -82,24 +82,31 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       };
     });
   };
-
   const logout = () => {
-    setUserSettings(defaultSettings);
+    setUserSettings(null);
     if (typeof window !== "undefined") {
       localStorage.removeItem("mathGameUserSettings");
     }
+  };
+  const login = (name: string) => {
+    setUserSettings({
+      ...defaultSettings,
+      name,
+    });
   };
 
   return (
     <UserContext.Provider
       value={{
         userSettings,
+        isLoggedIn,
         updateName,
         updateDifficulty,
         updateColorScheme,
         toggleSound,
         addPoints,
         logout,
+        login,
       }}
     >
       {children}
