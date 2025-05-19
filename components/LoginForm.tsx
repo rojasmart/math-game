@@ -39,7 +39,10 @@ export default function LoginForm() {
             />
             {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
           </div>
-          <button type="submit" className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200">
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 cursor-pointer"
+          >
             Start Playing
           </button>
         </form>
