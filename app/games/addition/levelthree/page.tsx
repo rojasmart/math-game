@@ -8,8 +8,8 @@ export default function AdditionGameLevelThree() {
   const [mounted, setMounted] = useState(false);
 
   const getDefaultTime = () => {
-    if (userSettings.difficulty === "easy") return 15;
-    if (userSettings.difficulty === "medium") return 10;
+    if (userSettings?.difficulty === "easy") return 15;
+    if (userSettings?.difficulty === "medium") return 10;
     return 7; // hard
   };
 
@@ -30,8 +30,8 @@ export default function AdditionGameLevelThree() {
   // Generate new problem
   const generateProblem = () => {
     let range = 20;
-    if (userSettings.difficulty === "easy") range = 10;
-    if (userSettings.difficulty === "hard") range = 50;
+    if (userSettings?.difficulty === "easy") range = 10;
+    if (userSettings?.difficulty === "hard") range = 50;
 
     const firstNum = Math.floor(Math.random() * range) + 1;
     const secondNum = Math.floor(Math.random() * range) + 1;
@@ -105,17 +105,17 @@ export default function AdditionGameLevelThree() {
       setFeedback("");
       setScore((prev) => prev + 1);
 
-      const pointsToAdd = userSettings.difficulty === "easy" ? 1 : userSettings.difficulty === "medium" ? 2 : 3;
+      const pointsToAdd = userSettings?.difficulty === "easy" ? 1 : userSettings?.difficulty === "medium" ? 2 : 3;
       addPoints(pointsToAdd);
 
-      const timeBonus = userSettings.difficulty === "easy" ? 3 : userSettings.difficulty === "medium" ? 2 : 1;
+      const timeBonus = userSettings?.difficulty === "easy" ? 3 : userSettings?.difficulty === "medium" ? 2 : 1;
       setTimeRemaining((time) => time + timeBonus);
       setTimeChange({ value: timeBonus, isShowing: true });
 
       setTimeout(generateProblem, 500);
       setTimeout(() => setTimeChange({ value: 0, isShowing: false }), 1500);
     } else {
-      const timePenalty = userSettings.difficulty === "easy" ? -3 : userSettings.difficulty === "medium" ? -2 : -1;
+      const timePenalty = userSettings?.difficulty === "easy" ? -3 : userSettings?.difficulty === "medium" ? -2 : -1;
       setTimeRemaining((time) => Math.max(0, time + timePenalty));
       setTimeChange({ value: timePenalty, isShowing: true });
 
@@ -150,7 +150,7 @@ export default function AdditionGameLevelThree() {
   console.log("timechange", timeChange);
   return (
     <div className="bg-blue-50 min-h-screen p-8">
-      <GameHeader title="Level 3" showPlayAgain={!isActive} onPlayAgain={restartGame} />
+      <GameHeader title="Level 3" showPlayAgain={!isActive} onPlayAgain={restartGame} returnPath="/games/addition" />
       <div className="flex flex-col items-center justify-center h-[calc(90vh-120px)] p-8 bg-blue-50">
         <div className="flex flex-col md:flex-row gap-6 max-w-5xl">
           <div className="bg-white p-8 rounded-xl shadow-md max-w-3xl w-full">

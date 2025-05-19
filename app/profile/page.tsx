@@ -65,7 +65,7 @@ export default function ProfilePage() {
                     key={level}
                     onClick={() => updateDifficulty(level as "easy" | "medium" | "hard")}
                     className={`cursor-pointer px-4 py-2 rounded-lg transition-colors ${
-                      userSettings.difficulty === level ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                      userSettings?.difficulty === level ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                     }`}
                   >
                     {level.charAt(0).toUpperCase() + level.slice(1)}
