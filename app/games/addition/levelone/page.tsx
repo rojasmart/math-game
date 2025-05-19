@@ -196,7 +196,7 @@ export default function AdditionGameLevelOne() {
 
   return (
     <div className="bg-blue-50 min-h-screen p-8">
-      <GameHeader title="Level 1" showPlayAgain={!isActive} onPlayAgain={restartGame} />
+      <GameHeader title="Level 1" showPlayAgain={!isActive} onPlayAgain={restartGame} returnPath="/games/addition" />
       <div className="flex flex-col items-center justify-center h-[calc(90vh-120px)] p-8 bg-blue-50">
         <div className="flex flex-col md:flex-row gap-6 max-w-5xl">
           <div className="bg-white p-8 rounded-xl shadow-md max-w-3xl w-full">
