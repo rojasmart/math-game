@@ -1,109 +1,110 @@
 "use client";
-import React from "react";
 import Link from "next/link";
 import { useUser } from "../../../contexts/UserContext";
 
-export default function MultiplicationGame() {
-  const { userSettings } = useUser();
-  const currentPoints = userSettings?.points || 0;
+const multiplicationGames = [
+  {
+    id: "levelone",
+    description: "Find the result of a × b = result",
+    example: "7 × 4 = ?",
+    color: "bg-blue-500 hover:bg-blue-600",
+    icon: "Level 1",
+    requiredPoints: 0,
+  },
+  {
+    id: "leveltwo",
+    description: "Find the missing number: ? × b = result",
+    example: "? × 4 = 12",
+    color: "bg-green-500 hover:bg-green-600",
+    icon: "Level 2",
+    requiredPoints: 300,
+  },
+  {
+    id: "levelthree",
+    description: "Find the missing number: a × ? = result",
+    example: "3 × ? = 15",
+    color: "bg-yellow-500 hover:bg-yellow-600",
+    icon: "Level 3",
+    requiredPoints: 420,
+  },
+  {
+    id: "levelfour",
+    description: "Find the missing number: a × b × c × d × ? = result",
+    example: "2 × 3 × 2 × 2 × ? = 48",
+    color: "bg-purple-500 hover:bg-purple-600",
+    icon: "Level 4",
+    requiredPoints: 500,
+  },
+];
 
-  const levels = [
-    {
-      id: 1,
-      title: "Level 1",
-      description: "Basic Multiplication",
-      path: "/games/multiplication/levelone",
-      requiredPoints: 0,
-    },
-    {
-      id: 2,
-      title: "Level 2",
-      description: "Find Missing First Number",
-      path: "/games/multiplication/leveltwo",
-      requiredPoints: 300,
-    },
-    {
-      id: 3,
-      title: "Level 3",
-      description: "Find Missing Second Number",
-      path: "/games/multiplication/levelthree",
-      requiredPoints: 420,
-    },
-    {
-      id: 4,
-      title: "Level 4",
-      description: "Chain Multiplication",
-      path: "/games/multiplication/levelfour",
-      requiredPoints: 500,
-    },
-  ];
+export default function MultiplicationGameMenu() {
+  const { userSettings } = useUser();
+  const userPoints = userSettings?.points || 0;
+
+  if (!userSettings) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className="min-h-screen bg-blue-50 p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-blue-700">Multiplication Game</h1>
-          <Link href="/" className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div className="bg-blue-50 min-h-screen p-8">
+      <div className="max-w-5xl mx-auto">
+        <h1 className="text-1xl font-bold text-center text-blue-700 mb-6">Multiplication Games</h1>
+        <p className="text-lg text-center text-gray-600 mb-8">Choose a game mode to practice different types of multiplication problems.</p>
+
+        <div className="mb-6 text-center">
+          <Link
+            href="/"
+            className="inline-flex items-center bg-gray-400 text-white px-3 py-2 text-lg rounded-lg hover:bg-gray-500 transition justify-center"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Back to Menu
+            Return
           </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {levels.map((level) => {
-            const isLocked = currentPoints < level.requiredPoints;
+          {multiplicationGames.map((game) => {
+            const isLocked = userPoints < game.requiredPoints;
+            const progressPercentage = Math.min(Math.round((userPoints / game.requiredPoints) * 100), 100);
 
             return (
-              <div key={level.id} className={`bg-white rounded-xl shadow-md overflow-hidden ${isLocked ? "opacity-75" : ""}`}>
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <h2 className="text-2xl font-bold text-blue-700">{level.title}</h2>
-                    {isLocked && (
-                      <div className="bg-gray-100 px-3 py-1 rounded-full">
-                        <div className="flex items-center">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 text-gray-500 mr-1"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                            />
-                          </svg>
-                          <span className="text-sm text-gray-500">{level.requiredPoints} pts</span>
+              <div key={game.id} className="relative">
+                {isLocked ? (
+                  <div className={`${game.color.split(" ")[0]} opacity-50 text-white p-4 rounded-xl shadow-lg`}>
+                    <div className="flex items-start">
+                      <div className="relative text-xl mr-6 bg-white/20 p-4 rounded-full">
+                        🔒
+                        <div className="absolute bottom-0 right-0 bg-blue-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
+                          {progressPercentage}%
                         </div>
                       </div>
-                    )}
-                  </div>
-                  <p className="text-gray-600 mb-6">{level.description}</p>
-                  {isLocked ? (
-                    <div className="flex items-center text-gray-500">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                        />
-                      </svg>
-                      Unlock at {level.requiredPoints} points
+                      <div>
+                        <p className="text-white/90 mb-4 text-sm">Locked</p>
+                        <div className="bg-white/10 px-4 py-3 rounded-lg inline-block text-base text-sm">Required: {game.requiredPoints} points</div>
+                      </div>
                     </div>
-                  ) : (
-                    <Link href={level.path} className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                      Play Now
-                    </Link>
-                  )}
-                </div>
+                  </div>
+                ) : (
+                  <Link href={`/games/multiplication/${game.id}`} className="block no-underline">
+                    <div className={`${game.color} text-white p-4 rounded-xl shadow-lg transition transform hover:scale-105 hover:shadow-xl`}>
+                      <div className="flex items-start">
+                        <div className="text-sm mr-6 bg-white/20 p-3 rounded-full">{game.icon}</div>
+                        <div>
+                          <p className="text-white/90 mb-4 text-sm">{game.description}</p>
+                          <div className="bg-white/10 px-4 py-3 rounded-lg inline-block text-base text-sm">Example: {game.example}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                )}
               </div>
             );
           })}
+        </div>
+
+        <div className="mt-6 text-center text-gray-600">
+          Your current points: <span className="font-bold text-blue-600">{userPoints}</span>
         </div>
       </div>
     </div>
