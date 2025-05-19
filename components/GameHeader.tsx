@@ -52,13 +52,13 @@ export default function GameHeader({ title, showPlayAgain = false, onPlayAgain }
           )}
           {mounted && (
             <>
-              <div className="bg-blue-100 px-3 py-1 rounded-full text-blue-700 font-medium">{userSettings.difficulty}</div>
+              <div className="bg-blue-100 px-3 py-1 rounded-full text-blue-700 font-medium">{userSettings?.difficulty}</div>
 
               <div className="bg-yellow-100 px-3 py-1 rounded-full text-yellow-700 font-medium flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
-                {userSettings.points} pts
+                {userSettings?.points} pts
               </div>
             </>
           )}

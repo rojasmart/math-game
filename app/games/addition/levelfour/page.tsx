@@ -8,8 +8,8 @@ export default function AdditionGameLevelFour() {
   const [mounted, setMounted] = useState(false);
 
   const getDefaultTime = () => {
-    if (userSettings.difficulty === "easy") return 13;
-    if (userSettings.difficulty === "medium") return 9;
+    if (userSettings?.difficulty === "easy") return 13;
+    if (userSettings?.difficulty === "medium") return 9;
     return 5; // hard
   };
 
@@ -30,8 +30,8 @@ export default function AdditionGameLevelFour() {
   // Generate new problem
   const generateProblem = () => {
     let range = 20;
-    if (userSettings.difficulty === "easy") range = 10;
-    if (userSettings.difficulty === "hard") range = 50;
+    if (userSettings?.difficulty === "easy") range = 10;
+    if (userSettings?.difficulty === "hard") range = 50;
 
     // Then generate the first number (must be smaller than result)
     const firstNum = Math.floor(Math.random() * range) + 1;
@@ -107,17 +107,17 @@ export default function AdditionGameLevelFour() {
       setFeedback("");
       setScore((prev) => prev + 1);
 
-      const pointsToAdd = userSettings.difficulty === "easy" ? 1 : userSettings.difficulty === "medium" ? 2 : 3;
+      const pointsToAdd = userSettings?.difficulty === "easy" ? 1 : userSettings?.difficulty === "medium" ? 2 : 3;
       addPoints(pointsToAdd);
 
-      const timeBonus = userSettings.difficulty === "easy" ? 3 : userSettings.difficulty === "medium" ? 2 : 1;
+      const timeBonus = userSettings?.difficulty === "easy" ? 3 : userSettings?.difficulty === "medium" ? 2 : 1;
       setTimeRemaining((time) => time + timeBonus);
       setTimeChange({ value: timeBonus, isShowing: true });
 
       setTimeout(generateProblem, 500);
       setTimeout(() => setTimeChange({ value: 0, isShowing: false }), 1500);
     } else {
-      const timePenalty = userSettings.difficulty === "easy" ? -3 : userSettings.difficulty === "medium" ? -2 : -1;
+      const timePenalty = userSettings?.difficulty === "easy" ? -3 : userSettings?.difficulty === "medium" ? -2 : -1;
       setTimeRemaining((time) => Math.max(0, time + timePenalty));
       setTimeChange({ value: timePenalty, isShowing: true });
 

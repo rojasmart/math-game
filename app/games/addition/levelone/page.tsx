@@ -11,8 +11,8 @@ export default function AdditionGameLevelOne() {
 
   // Definir uma constante para o tempo inicial com base na dificuldade
   const getDefaultTime = () => {
-    if (userSettings.difficulty === "easy") return 13;
-    if (userSettings.difficulty === "medium") return 9;
+    if (userSettings?.difficulty === "easy") return 13;
+    if (userSettings?.difficulty === "medium") return 9;
     return 5; // hard
   };
 
@@ -33,8 +33,8 @@ export default function AdditionGameLevelOne() {
   // Generate new random numbers
   const generateNumbers = () => {
     let range = 20;
-    if (userSettings.difficulty === "easy") range = 10;
-    if (userSettings.difficulty === "hard") range = 50;
+    if (userSettings?.difficulty === "easy") range = 10;
+    if (userSettings?.difficulty === "hard") range = 50;
 
     setNum1(Math.floor(Math.random() * range) + 1);
     setNum2(Math.floor(Math.random() * range) + 1);
@@ -122,9 +122,9 @@ export default function AdditionGameLevelOne() {
       // Calculate time-based bonus points
       let timeBonus = 0;
       if (responseTime <= 1) {
-        timeBonus = userSettings.difficulty === "easy" ? 3 : 4;
+        timeBonus = userSettings?.difficulty === "easy" ? 3 : 4;
       } else if (responseTime <= 2) {
-        timeBonus = userSettings.difficulty === "easy" ? 2 : 3;
+        timeBonus = userSettings?.difficulty === "easy" ? 2 : 3;
       } else if (responseTime <= 3) {
         timeBonus = 2;
       } else {
@@ -134,7 +134,7 @@ export default function AdditionGameLevelOne() {
       setScore((prev) => prev + timeBonus);
 
       // Time bonus for timer remains the same
-      const timerBonus = userSettings.difficulty === "easy" ? 3 : userSettings.difficulty === "medium" ? 2 : 1;
+      const timerBonus = userSettings?.difficulty === "easy" ? 3 : userSettings?.difficulty === "medium" ? 2 : 1;
       setTimeRemaining((time) => time + timerBonus);
       setTimeChange({ value: timerBonus, isShowing: true });
 
@@ -145,7 +145,7 @@ export default function AdditionGameLevelOne() {
       setTimeout(() => setTimeChange({ value: 0, isShowing: false }), 1500);
     } else {
       // Existing wrong answer logic
-      const timePenalty = userSettings.difficulty === "easy" ? -3 : userSettings.difficulty === "medium" ? -2 : -1;
+      const timePenalty = userSettings?.difficulty === "easy" ? -3 : userSettings?.difficulty === "medium" ? -2 : -1;
       setTimeRemaining((time) => Math.max(0, time + timePenalty));
       setTimeChange({ value: timePenalty, isShowing: true });
 
