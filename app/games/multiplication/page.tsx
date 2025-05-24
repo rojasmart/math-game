@@ -21,8 +21,8 @@ const multiplicationGames = [
   },
   {
     id: "levelthree",
-    description: "Find the missing number: a × ? = result",
-    example: "4 × 3 x ? = 15",
+    description: "Find the missing number: a × b × ? = result",
+    example: "4 × 3 × ? = 12",
     color: "bg-yellow-500 hover:bg-yellow-600",
     icon: "Level 3",
     requiredPoints: 420,
