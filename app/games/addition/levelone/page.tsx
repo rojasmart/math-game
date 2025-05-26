@@ -55,7 +55,7 @@ export default function AdditionGameLevelOne() {
 
   // Timer effect
   useEffect(() => {
-    let interval = null;
+    let interval: NodeJS.Timeout | undefined = undefined;
 
     if (isActive && timeRemaining > 0) {
       interval = setInterval(() => {
@@ -79,7 +79,7 @@ export default function AdditionGameLevelOne() {
       }
 
       // Add keyboard listener for direct number input
-      const handleKeyDown = (e) => {
+      const handleKeyDown = (e: KeyboardEvent) => {
         // Only handle keys if the input element is not focused
         const inputElement = document.querySelector('input[type="number"]') as HTMLInputElement;
         if (inputElement === document.activeElement) {
@@ -157,7 +157,7 @@ export default function AdditionGameLevelOne() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isActive) {
       checkAnswer();
@@ -255,13 +255,13 @@ export default function AdditionGameLevelOne() {
                       <input
                         type="number"
                         value={userAnswer}
-                        onChange={(e) => setUserAnswer(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserAnswer(e.target.value)}
                         className="flex-1 p-3 border-b-2 border-gray-300 rounded-none text-xl text-center focus:outline-none focus:border-blue-500 text-black bg-transparent"
                         placeholder="Your answer"
                         required
                         disabled={!isActive} // This should be properly bound to isActive
                         autoFocus
-                        onBlur={(e) => e.target.focus()}
+                        onBlur={(e: React.FocusEvent<HTMLInputElement>) => e.target.focus()}
                       />
                       <button
                         type="submit"
