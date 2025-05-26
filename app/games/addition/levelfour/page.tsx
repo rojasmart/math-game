@@ -60,16 +60,20 @@ export default function AdditionGameLevelFour() {
 
   // Timer effect
   useEffect(() => {
-    let interval = null;
+    let interval: NodeJS.Timeout | undefined = undefined;
+
     if (isActive && timeRemaining > 0) {
       interval = setInterval(() => {
         setTimeRemaining((time) => time - 1);
       }, 1000);
     } else if (timeRemaining === 0) {
       setIsActive(false);
-      clearInterval(interval);
+      if (interval) clearInterval(interval);
     }
-    return () => clearInterval(interval);
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
   }, [isActive, timeRemaining]);
 
   // Keyboard input handler
