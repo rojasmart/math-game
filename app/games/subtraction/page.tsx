@@ -109,3 +109,4 @@ export default function SubtractionGameMenu() {
       </div>
     </div>
   );
+}
