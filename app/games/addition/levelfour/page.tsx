@@ -79,7 +79,7 @@ export default function AdditionGameLevelFour() {
   // Keyboard input handler
   useEffect(() => {
     if (isActive) {
-      const handleKeyDown = (e) => {
+      const handleKeyDown = (e: KeyboardEvent) => {
         const inputElement = document.querySelector('input[type="number"]') as HTMLInputElement;
         if (inputElement === document.activeElement) return;
 
@@ -134,7 +134,7 @@ export default function AdditionGameLevelFour() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isActive) {
       checkAnswer();
