@@ -58,7 +58,7 @@ export default function AdditionGameLevelThree() {
 
   // Timer effect
   useEffect(() => {
-    let interval = null;
+    let interval: NodeJS.Timeout | undefined = undefined;
     if (isActive && timeRemaining > 0) {
       interval = setInterval(() => {
         setTimeRemaining((time) => time - 1);
@@ -73,7 +73,7 @@ export default function AdditionGameLevelThree() {
   // Keyboard input handler
   useEffect(() => {
     if (isActive) {
-      const handleKeyDown = (e) => {
+      const handleKeyDown = (e: KeyboardEvent) => {
         const inputElement = document.querySelector('input[type="number"]') as HTMLInputElement;
         if (inputElement === document.activeElement) return;
 
@@ -128,7 +128,7 @@ export default function AdditionGameLevelThree() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isActive) {
       checkAnswer();
@@ -147,7 +147,7 @@ export default function AdditionGameLevelThree() {
   if (!mounted) {
     return <div className="bg-blue-50 min-h-screen p-8">Loading...</div>;
   }
-  console.log("timechange", timeChange);
+
   return (
     <div className="bg-blue-50 min-h-screen p-8">
       <GameHeader title="Level 3" showPlayAgain={!isActive} onPlayAgain={restartGame} returnPath="/games/addition" />
