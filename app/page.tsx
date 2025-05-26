@@ -115,7 +115,7 @@ export default function Home() {
                           type="text"
                           value={newName}
                           onChange={(e) => setNewName(e.target.value)}
-                          className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
                           placeholder="Change your name"
                         />
                         <button
