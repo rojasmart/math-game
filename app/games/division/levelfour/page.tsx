@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useUser } from "../../../../contexts/UserContext";
 import GameHeader from "../../../../components/GameHeader";
 
@@ -71,10 +71,9 @@ export default function DivisionGameLevelFour() {
       generateProblem();
     }
   }, [mounted, userSettings]);
-
   // Timer effect
   useEffect(() => {
-    let interval = null;
+    let interval: NodeJS.Timeout | undefined = undefined;
     if (isActive && timeRemaining > 0) {
       interval = setInterval(() => {
         setTimeRemaining((time) => time - 1);
@@ -85,12 +84,10 @@ export default function DivisionGameLevelFour() {
       handleGameOver();
     }
     return () => clearInterval(interval);
-  }, [isActive, timeRemaining]);
-
-  // Keyboard input handler
+  }, [isActive, timeRemaining]); // Keyboard input handler
   useEffect(() => {
     if (isActive) {
-      const handleKeyDown = (e) => {
+      const handleKeyDown = (e: KeyboardEvent) => {
         const inputElement = document.querySelector('input[type="number"]') as HTMLInputElement;
         if (inputElement === document.activeElement) return;
 
@@ -109,6 +106,7 @@ export default function DivisionGameLevelFour() {
       window.addEventListener("keydown", handleKeyDown);
       return () => window.removeEventListener("keydown", handleKeyDown);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive, userAnswer]);
 
   // Check answer
@@ -146,8 +144,7 @@ export default function DivisionGameLevelFour() {
       setTimeout(() => setTimeChange({ value: 0, isShowing: false }), 1500);
     }
   };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isActive) {
       checkAnswer();
@@ -183,8 +180,10 @@ export default function DivisionGameLevelFour() {
             <div className="flex flex-col md:flex-row gap-8">
               <div className="flex-1">
                 <div className="flex justify-between items-center mb-4">
+                  {" "}
                   <button
                     onClick={() => setShowNumPad(!showNumPad)}
+                    type="button"
                     className={`text-sm px-4 py-2 rounded-lg flex items-center cursor-pointer transition-all shadow-sm
                     ${showNumPad ? "bg-indigo-500 hover:bg-indigo-600 text-white" : "bg-indigo-500 hover:bg-indigo-600 text-white"}`}
                   >
@@ -232,10 +231,11 @@ export default function DivisionGameLevelFour() {
                 <form onSubmit={handleSubmit} className="mb-6">
                   <div className="flex flex-col gap-4">
                     <div className="flex gap-4 mb-2">
+                      {" "}
                       <input
                         type="number"
                         value={userAnswer}
-                        onChange={(e) => isActive && setUserAnswer(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => isActive && setUserAnswer(e.target.value)}
                         className="w-full p-4 text-2xl font-bold text-center border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none"
                         placeholder="Enter your answer"
                         disabled={!isActive}
