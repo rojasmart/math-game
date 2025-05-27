@@ -65,7 +65,7 @@ export default function DivisionGameLevelOne() {
 
   // Timer effect
   useEffect(() => {
-    let interval = null;
+    let interval: NodeJS.Timeout | undefined = undefined;
     if (isActive && timeRemaining > 0) {
       interval = setInterval(() => {
         setTimeRemaining((time) => time - 1);
@@ -81,7 +81,7 @@ export default function DivisionGameLevelOne() {
   // Keyboard input handler
   useEffect(() => {
     if (isActive) {
-      const handleKeyDown = (e) => {
+      const handleKeyDown = (e: KeyboardEvent) => {
         const inputElement = document.querySelector('input[type="number"]') as HTMLInputElement;
         if (inputElement === document.activeElement) return;
 
@@ -149,7 +149,7 @@ export default function DivisionGameLevelOne() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isActive) {
       checkAnswer();

@@ -54,7 +54,7 @@ export default function SubtractionGameLevelOne() {
 
   // Timer effect
   useEffect(() => {
-    let interval = null;
+    let interval: NodeJS.Timeout | undefined = undefined;
 
     if (isActive && timeRemaining > 0) {
       interval = setInterval(() => {
@@ -76,7 +76,7 @@ export default function SubtractionGameLevelOne() {
         inputElement.focus();
       }
 
-      const handleKeyDown = (e) => {
+      const handleKeyDown = (e: KeyboardEvent) => {
         const inputElement = document.querySelector('input[type="number"]') as HTMLInputElement;
         if (inputElement === document.activeElement) {
           return;
@@ -140,7 +140,7 @@ export default function SubtractionGameLevelOne() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isActive) {
       checkAnswer();

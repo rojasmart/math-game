@@ -144,7 +144,7 @@ export default function DivisionGameLevelFour() {
       setTimeout(() => setTimeChange({ value: 0, isShowing: false }), 1500);
     }
   };
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isActive) {
       checkAnswer();
