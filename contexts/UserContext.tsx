@@ -57,20 +57,21 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
   // Methods to update settings
   const updateName = (name: string) => {
-    setUserSettings((prev) => (prev ? { ...prev, name } : defaultSettings));
+    setUserSettings((prev) => (prev ? { ...prev, name } : defaultSettings) as UserSettings);
   };
+
   const updateDifficulty = (difficulty: "easy" | "medium" | "hard") => {
-    setUserSettings((prev) => (prev ? { ...prev, difficulty } : { ...defaultSettings, difficulty }));
+    setUserSettings((prev) => (prev ? { ...prev, difficulty } : { ...defaultSettings, difficulty }) as UserSettings);
   };
 
   const updateColorScheme = (colorScheme: "default" | "dark" | "light" | "contrast") => {
-    setUserSettings((prev) => (prev ? { ...prev, colorScheme } : { ...defaultSettings, colorScheme }));
+    setUserSettings((prev) => (prev ? { ...prev, colorScheme } : { ...defaultSettings, colorScheme }) as UserSettings);
   };
 
   const toggleSound = () => {
     setUserSettings((prev) => {
       if (!prev) return defaultSettings;
-      return { ...prev, soundEnabled: !prev.soundEnabled };
+      return { ...prev, soundEnabled: !prev.soundEnabled } as UserSettings;
     });
   };
 
@@ -79,12 +80,13 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       if (!prev) return defaultSettings;
 
       const newTotalPoints = prev.points + points;
+      const newHighestPoints = Math.max(points, prev.highestPoints);
+
       return {
         ...prev,
         points: newTotalPoints,
-        // Atualiza o recorde apenas se os pontos desta rodada forem maiores
-        highestPoints: points > prev.highestPoints ? points : prev.highestPoints,
-      };
+        highestPoints: newHighestPoints,
+      } as UserSettings; // Explicit type casting to ensure type safety
     });
   };
 
