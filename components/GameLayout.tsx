@@ -115,8 +115,14 @@ const GameLayout: React.FC<GameLayoutProps> = ({
             <div className="md:w-80 h-80 p-6 bg-white rounded-xl border border-gray-200 shadow-md flex items-center justify-center">
               <NumPad
                 isActive={isActive}
-                onNumberClick={(num) => setUserAnswer((prev) => `${prev}${num}`)}
-                onDeleteClick={() => setUserAnswer((prev) => prev.slice(0, -1))}
+                onNumberClick={(num) => {
+                  const newValue = `${userAnswer}${num}`;
+                  setUserAnswer(newValue);
+                }}
+                onDeleteClick={() => {
+                  const newValue = userAnswer.slice(0, -1);
+                  setUserAnswer(newValue);
+                }}
                 onClearClick={() => setUserAnswer("")}
               />
             </div>
