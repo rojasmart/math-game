@@ -1,15 +1,36 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useUser } from "../../contexts/UserContext";
 
 export default function ProfilePage() {
   const { userSettings, updateName, updateDifficulty, updateColorScheme, toggleSound } = useUser();
-  const [newName, setNewName] = useState(userSettings.name);
+  const [newName, setNewName] = useState<string>("");
+
+  // Initialize form data once userSettings is available
+  useEffect(() => {
+    if (userSettings) {
+      setNewName(userSettings.name);
+    }
+  }, [userSettings]);
+
+  // If userSettings is null, show a loading state
+  if (!userSettings) {
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <div className="bg-white p-6 rounded-xl shadow-md">
+          <p className="text-lg font-medium">Loading user profile...</p>
+        </div>
+      </div>
+    );
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    updateName(newName);
+    // Only update if newName is not empty
+    if (newName.trim()) {
+      updateName(newName);
+    }
   };
 
   return (
