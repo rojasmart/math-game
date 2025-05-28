@@ -57,22 +57,27 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
   // Methods to update settings
   const updateName = (name: string) => {
-    setUserSettings((prev) => ({ ...prev, name }));
+    setUserSettings((prev) => (prev ? { ...prev, name } : defaultSettings));
   };
-
   const updateDifficulty = (difficulty: "easy" | "medium" | "hard") => {
-    setUserSettings((prev) => ({ ...prev, difficulty }));
+    setUserSettings((prev) => (prev ? { ...prev, difficulty } : { ...defaultSettings, difficulty }));
   };
 
   const updateColorScheme = (colorScheme: "default" | "dark" | "light" | "contrast") => {
-    setUserSettings((prev) => ({ ...prev, colorScheme }));
+    setUserSettings((prev) => (prev ? { ...prev, colorScheme } : { ...defaultSettings, colorScheme }));
   };
 
   const toggleSound = () => {
-    setUserSettings((prev) => ({ ...prev, soundEnabled: !prev.soundEnabled }));
+    setUserSettings((prev) => {
+      if (!prev) return defaultSettings;
+      return { ...prev, soundEnabled: !prev.soundEnabled };
+    });
   };
+
   const addPoints = (points: number) => {
     setUserSettings((prev) => {
+      if (!prev) return defaultSettings;
+
       const newTotalPoints = prev.points + points;
       return {
         ...prev,
@@ -82,6 +87,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       };
     });
   };
+
   const logout = () => {
     setUserSettings(null);
     if (typeof window !== "undefined") {
