@@ -16,20 +16,20 @@ interface TimerProps {
   isActive?: boolean; // Whether the timer is active
 }
 
-const Timer: React.FC<TimerProps> = ({ 
-  initialTime, 
-  onTimeUp, 
-  timeRemaining, 
-  setTimeRemaining, 
+const Timer: React.FC<TimerProps> = ({
+  initialTime,
+  onTimeUp,
+  timeRemaining,
+  setTimeRemaining,
   difficulty = "medium",
   timeChange = { value: 0, isShowing: false },
-  isActive = true
+  isActive = true,
 }) => {
   // For uncontrolled component
   const [timeLeft, setTimeLeft] = useState(initialTime);
-  
-  const getDefaultTime = () => difficulty ? BaseGameService.getDefaultTime(difficulty) : initialTime;
-  
+
+  const getDefaultTime = () => (difficulty ? BaseGameService.getDefaultTime(difficulty) : initialTime);
+
   // For uncontrolled mode
   useEffect(() => {
     if (!setTimeRemaining && timeLeft > 0 && isActive) {
@@ -50,9 +50,7 @@ const Timer: React.FC<TimerProps> = ({
       <div className="flex items-center justify-between mb-2">
         <span className="font-bold text-gray-600">Time:</span>
         <div className="flex items-center">
-          <div className={`text-xl font-bold ${currentTime <= 10 ? "text-red-600 animate-pulse" : "text-blue-600"}`}>
-            {currentTime}
-          </div>
+          <div className={`text-xl font-bold ${currentTime <= 10 ? "text-red-600 animate-pulse" : "text-blue-600"}`}>{currentTime}</div>
           <span className="ml-1 text-gray-600">seconds</span>
           {timeChange.isShowing && (
             <div className={`ml-2 font-bold text-lg animate-fade-in-out ${timeChange.value > 0 ? "text-green-600" : "text-red-600"}`}>
@@ -71,5 +69,6 @@ const Timer: React.FC<TimerProps> = ({
       </div>
     </div>
   );
+};
 
 export default Timer;

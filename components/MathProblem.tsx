@@ -11,7 +11,7 @@ interface MathProblemProps {
   missingNumberIndex?: number; // The index of the number that is missing (to be replaced with a placeholder)
 }
 
-const MathProblem: React.FC<MathProblemProps> = ({ operation, level, numbers, result, showResultField = true, missingNumberIndex }) => {
+const MathProblem: React.FC<MathProblemProps> = ({ operation, numbers, result, showResultField = true, missingNumberIndex }) => {
   // Get operation symbol
   const getOperationSymbol = (op: MathOperation) => {
     switch (op) {
